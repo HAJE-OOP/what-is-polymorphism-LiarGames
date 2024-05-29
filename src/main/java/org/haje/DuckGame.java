@@ -4,6 +4,7 @@ import org.haje.ducks.DecoyDuck;
 import org.haje.ducks.MallardDuck;
 import org.haje.ducks.RedheadDuck;
 import org.haje.ducks.RubberDuck;
+import org.haje.ducks.Duck;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 
 public class DuckGame extends JPanel implements KeyListener {
-    private Object duck;
+    private Duck duck;
 
     public DuckGame() {
         setFocusable(true);
@@ -20,7 +21,7 @@ public class DuckGame extends JPanel implements KeyListener {
         duck = getRandomDuck();
     }
 
-    private Object getRandomDuck() {
+    private Duck getRandomDuck() {
         // TODO: Polymorphism(다형성), Inheritance(상속)
         Random random = new Random();
         int duckType = random.nextInt(4);
@@ -44,15 +45,7 @@ public class DuckGame extends JPanel implements KeyListener {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        if (duck instanceof MallardDuck) {
-            ((MallardDuck) duck).draw(g2d);
-        } else if (duck instanceof RedheadDuck) {
-            ((RedheadDuck) duck).draw(g2d);
-        } else if (duck instanceof RubberDuck) {
-            ((RubberDuck) duck).draw(g2d);
-        } else if (duck instanceof DecoyDuck) {
-            ((DecoyDuck) duck).draw(g2d);
-        }
+        duck.Draw(g2d);
     }
 
     @Override
@@ -61,50 +54,10 @@ public class DuckGame extends JPanel implements KeyListener {
         //HINT: create method in duck class to move the duck
         int keyCode = e.getKeyCode();
         switch (keyCode) {
-            case KeyEvent.VK_W:
-                if (duck instanceof MallardDuck) {
-                    ((MallardDuck) duck).y -= 5;
-                } else if (duck instanceof RedheadDuck) {
-                    ((RedheadDuck) duck).y -= 5;
-                } else if (duck instanceof RubberDuck) {
-                    ((RubberDuck) duck).y -= 5;
-                } else if (duck instanceof DecoyDuck) {
-                    ((DecoyDuck) duck).y -= 5;
-                }
-                break;
-            case KeyEvent.VK_S:
-                if (duck instanceof MallardDuck) {
-                    ((MallardDuck) duck).y += 5;
-                } else if (duck instanceof RedheadDuck) {
-                    ((RedheadDuck) duck).y += 5;
-                } else if (duck instanceof RubberDuck) {
-                    ((RubberDuck) duck).y += 5;
-                } else if (duck instanceof DecoyDuck) {
-                    ((DecoyDuck) duck).y += 5;
-                }
-                break;
-            case KeyEvent.VK_A:
-                if (duck instanceof MallardDuck) {
-                    ((MallardDuck) duck).x -= 5;
-                } else if (duck instanceof RedheadDuck) {
-                    ((RedheadDuck) duck).x -= 5;
-                } else if (duck instanceof RubberDuck) {
-                    ((RubberDuck) duck).x -= 5;
-                } else if (duck instanceof DecoyDuck) {
-                    ((DecoyDuck) duck).x -= 5;
-                }
-                break;
-            case KeyEvent.VK_D:
-                if (duck instanceof MallardDuck) {
-                    ((MallardDuck) duck).x += 5;
-                } else if (duck instanceof RedheadDuck) {
-                    ((RedheadDuck) duck).x += 5;
-                } else if (duck instanceof RubberDuck) {
-                    ((RubberDuck) duck).x += 5;
-                } else if (duck instanceof DecoyDuck) {
-                    ((DecoyDuck) duck).x += 5;
-                }
-                break;
+            case KeyEvent.VK_W: duck.Move(0,-1); break;
+            case KeyEvent.VK_A: duck.Move(-1,0); break;
+            case KeyEvent.VK_S: duck.Move(0,1); break;
+            case KeyEvent.VK_D: duck.Move(1,0); break;
         }
         repaint();
     }
